@@ -1,16 +1,41 @@
 let list = new Array(); //define array of objects for list
 
 const taskName = document.querySelector('#name'); //input for task name
-const taskDescription = document.querySelector('#description');
 const taskDate = document.querySelector('#duedate');
-const taskDone = document.querySelector('#done');
 
 const pageList = document.querySelector('#list'); //the area where the list is on the page
 
 const taskAdd = document.querySelector('#add');
 
+const headerText = document.querySelector('.header-text');
+
+let header = document.createElement('h1');
+header.textContent = 'my list';
+headerText.appendChild(header);
+
+headerText.onclick = () => {
+    headerText.innerHTML = `
+        <input type="text" id="headerInput" name="headerInput">
+        `;
+
+    let headerInput = document.getElementById('headerInput');
+    headerInput.value = header.textContent;
+    triggerFocus(headerInput);
+
+    document.addEventListener("keyup", function(event) {
+        if (event.code === 'Enter') {
+            if (headerInput.value !== '') {
+            headerText.innerHTML = `
+                <h1>${headerInput.value}</h1>
+            `;
+            header.textContent = headerInput.value;
+            }
+        }
+    });
+}
+
 taskAdd.onclick = () => {
-    addToList(taskName.value, taskDescription.value, taskDate.value, taskDone.checked);
+    addToList(taskName.value, taskDate.value, false);
     syncListToPage();
 };
 
@@ -31,26 +56,40 @@ function syncListToPage() {
                 <input type="checkbox" name="task${i}" id="task${i}" ${checkedString}>
             </div>
             <div class="name"><span>${list[i].name}</span></div>
-            <div class="description">
-                <p>
-                    ${list[i].description}
-                </p>
-            </div>
-            <div class="duedate"><span>${list[i].duedate}</span></div>
+            <div class="duedate"><span>Due ${list[i].duedate}</span></div>
         `;
 
         pageList.appendChild(listEntry); //add the list entry to the page
     }
+
+    //now lets do an additional loop to check if any boxes need to be checked
+
 }
 
 //add a user entry to the list array
-function addToList(name, description, date, done) {
+function addToList(name, date, done) {
     let entry = {
         'name': name,
-        'description': description,
-        'date': date,
+        'duedate': date,
         'done': done
     };
 
     list.unshift(entry);
+}
+
+function triggerFocus(element) {
+    var eventType = "onfocusin" in element ? "focusin" : "focus",
+        bubbles = "onfocusin" in element,
+        event;
+
+    if ("createEvent" in document) {
+        event = document.createEvent("Event");
+        event.initEvent(eventType, bubbles, true);
+    }
+    else if ("Event" in window) {
+        event = new Event(eventType, { bubbles: bubbles, cancelable: true });
+    }
+
+    element.focus();
+    element.dispatchEvent(event);
 }
