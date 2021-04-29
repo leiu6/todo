@@ -34,7 +34,7 @@ function addToList(name, duedate, done) {
         entry.innerHTML = `
             <input type="checkbox" id="task${i}">
             <span class="name">${list[i].name}</span>
-            <span class="duedate">${list[i].duedate}</span>
+            <span class="duedate">Due ${list[i].duedate}</span>
         `;
 
         pageList.appendChild(entry);
