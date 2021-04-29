@@ -106,3 +106,6 @@ footer #add {
     margin-bottom: 1px;
     box-sizing: border-box;
 }
+.disabled {
+    opacity: 0.6;
+}

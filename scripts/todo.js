@@ -13,6 +13,17 @@ header.onclick = () => {
     header.setAttribute('role', 'textbox');
 };
 
+function declareDone(index) {
+    if (list[index].done) {
+        list[index].done = false;
+        document.getElementById('task' + index).parentElement.classList.remove('disabled');
+    }
+    else {
+        list[index].done =true;
+        document.getElementById('task' + index).parentElement.classList.add('disabled');
+    }
+}
+
 function addToList(name, duedate, done) {
     //don't allow submission if input fields are empty
     if (itemName.value === '' || itemDueDate.value === '') {
@@ -32,7 +43,7 @@ function addToList(name, duedate, done) {
     for (let i = 0; i < list.length; i++) {
         let entry = document.createElement('LI');
         entry.innerHTML = `
-            <input type="checkbox" id="task${i}">
+            <input type="checkbox" id="task${i}" onclick="declareDone(${i})">
             <span class="name">${list[i].name}</span>
             <span class="duedate">Due ${list[i].duedate}</span>
         `;
