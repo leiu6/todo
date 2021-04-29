@@ -38,9 +38,8 @@ header {
     -moz-box-sizing: border-box;    /* Firefox, other Gecko */
     box-sizing: border-box;         /* Opera/IE 8+ */
 }
-header h1 {
-    margin: 0;
-    font-size: 25px;
+header span:focus {
+    outline: none;
 }
 header input {
     margin: 0;

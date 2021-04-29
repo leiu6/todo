@@ -1,96 +1,48 @@
-let list = new Array(); //define array of objects for list
+const pageList = document.querySelector('#list');
+const itemName = document.querySelector('#name');
+const itemDueDate = document.querySelector('#duedate');
+const header = document.querySelector('.header-text');
 
-const taskName = document.querySelector('#name'); //input for task name
-const taskDate = document.querySelector('#duedate'); //input for task due date
-const taskAdd = document.querySelector('#add'); //button to add the task to the list
-const pageList = document.querySelector('#list'); //the area where the list is on the page
-const headerText = document.querySelector('.header-text'); //the <span></span> where the header's text is located
+let list = new Array();
 
-//Add inital content to the header
-let header = document.createElement('h1');
-header.textContent = 'my list';
-headerText.appendChild(header);
+document.querySelector('#add').onclick = () => addToList(itemName.value, itemDueDate.value, false);
 
-//Add text box for renaming the list if the header is clicked
-headerText.onclick = () => {
-    headerText.innerHTML = `
-        <input type="text" id="headerInput" name="headerInput">
-        `;
-
-    let headerInput = document.getElementById('headerInput');
-    headerInput.value = header.textContent;
-    triggerFocus(headerInput);
-
-    document.addEventListener("keyup", function(event) {
-        if (event.code === 'Enter') {
-            if (headerInput.value !== '') {
-            headerText.innerHTML = `
-                <h1>${headerInput.value}</h1>
-            `;
-            header.textContent = headerInput.value;
-            }
-        }
-    });
-}
-
-//onclick event for if the task add button is clicked
-taskAdd.onclick = () => {
-    addToList(taskName.value, taskDate.value, false); //task completion is always marked false for the first time, because you would not be putting it in the list if it was completed.
-    syncListToPage();
+//code to allow header to be renamed
+header.onclick = () => {
+    header.setAttribute('contenteditable', '');
+    header.setAttribute('role', 'textbox');
 };
 
-//this function syncs the page DOM and the list object
-function syncListToPage() {
-    pageList.innerHTML = ''; //reset contents of ul to redraw
+function addToList(name, duedate, done) {
+    //don't allow submission if input fields are empty
+    if (itemName.value === '' || itemDueDate.value === '') {
+        return null;
+    }
+
+    //add entry to array of list items
+    list.unshift({
+        "name": name,
+        "duedate": duedate,
+        "done": done
+    });
+
+    //loop through the array and put it on the page
+    pageList.innerHTML = '';
 
     for (let i = 0; i < list.length; i++) {
-        let listEntry = document.createElement('LI'); //create the li where the list entry lies
-
-        let checkedString = '';
-        if (list[i].done == true) {
-            checkString = 'checked';
-        }
-
-        listEntry.innerHTML = `
-            <div class="check">
-                <input type="checkbox" name="task${i}" id="task${i}" ${checkedString}>
-            </div>
-            <div class="name"><span>${list[i].name}</span></div>
-            <div class="duedate"><span>Due ${list[i].duedate}</span></div>
+        let entry = document.createElement('LI');
+        entry.innerHTML = `
+            <input type="checkbox" id="task${i}">
+            <span class="name">${list[i].name}</span>
+            <span class="duedate">${list[i].duedate}</span>
         `;
 
-        pageList.appendChild(listEntry); //add the list entry to the page
+        pageList.appendChild(entry);
+
+        let checkbox = document.getElementById('task' + i).value = list[i].done;
     }
 
-    //now lets do an additional loop to check if any boxes need to be checked
-
-}
-
-//add a user entry to the list array
-function addToList(name, date, done) {
-    let entry = {
-        'name': name,
-        'duedate': date,
-        'done': done
-    };
-
-    list.unshift(entry);
-}
-
-//function from stack overflow that allows cross browser focus triggering. Use to trigger focus to the textbox that appears whenever the header is clicked
-function triggerFocus(element) {
-    var eventType = "onfocusin" in element ? "focusin" : "focus",
-        bubbles = "onfocusin" in element,
-        event;
-
-    if ("createEvent" in document) {
-        event = document.createEvent("Event");
-        event.initEvent(eventType, bubbles, true);
-    }
-    else if ("Event" in window) {
-        event = new Event(eventType, { bubbles: bubbles, cancelable: true });
-    }
-
-    element.focus();
-    element.dispatchEvent(event);
+    //clear the input fields for next item
+    itemName.value = '';
+    itemDueDate.value = '';
 }
