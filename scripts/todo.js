@@ -13,14 +13,14 @@ header.onclick = () => {
     header.setAttribute('role', 'textbox');
 };
 
-function declareDone(index) {
-    if (list[index].done) {
-        list[index].done = false;
-        document.getElementById('task' + index).parentElement.classList.remove('disabled');
+function declareDone(i) {
+    if (document.getElementById('task' + i).checked == true) {
+        list[i].done = true;
+        document.getElementById('task' + i).parentElement.classList.add('disabled');
     }
     else {
-        list[index].done =true;
-        document.getElementById('task' + index).parentElement.classList.add('disabled');
+        list[i].done = false;
+        document.getElementById('task' + i).parentElement.classList.remove('disabled');
     }
 }
 
@@ -31,7 +31,7 @@ function addToList(name, duedate, done) {
     }
 
     //add entry to array of list items
-    list.unshift({
+    list.push({
         "name": name,
         "duedate": duedate,
         "done": done
@@ -43,14 +43,23 @@ function addToList(name, duedate, done) {
     for (let i = 0; i < list.length; i++) {
         let entry = document.createElement('LI');
         entry.innerHTML = `
-            <input type="checkbox" id="task${i}" onclick="declareDone(${i})">
+            <input type="checkbox" id="task${i}" onchange="declareDone(${i})">
             <span class="name">${list[i].name}</span>
             <span class="duedate">Due ${list[i].duedate}</span>
         `;
 
         pageList.appendChild(entry);
 
-        let checkbox = document.getElementById('task' + i).value = list[i].done;
+        document.getElementById('task' + i).checked = false;
+
+        if (list[i].done == true) {
+            document.getElementById('task' + i).checked = true;
+            document.getElementById('task' + i).parentElement.classList.add('disabled');
+        }
+        else {
+            document.getElementById('task' + i).checked = false;
+            document.getElementById('task' + i).parentElement.classList.remove('disabled');
+        }
     }
 
     //clear the input fields for next item
