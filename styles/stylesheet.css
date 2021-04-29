@@ -6,9 +6,6 @@ body {
     display: flex;
     flex-direction: column;
 }
-@media screen and (max-width: 390px) {
-    font-size: 10px;
-}
 header {
     background-color:rgb(201, 70, 70);
     width: 100%;
@@ -108,4 +105,7 @@ footer #add {
 }
 .disabled {
     opacity: 0.6;
+}
+span.red {
+    color:rgb(150, 50, 50) !important;
 }

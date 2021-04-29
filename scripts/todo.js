@@ -42,15 +42,29 @@ function addToList(name, duedate, done) {
 
     for (let i = 0; i < list.length; i++) {
         let entry = document.createElement('LI');
+        let duedateString = '';
+        if (list[i].duedate !== undefined && list[i].duedate !== null && list[i].duedate !== '') {
+            duedateString = 'Due ' + list[i].duedate;
+        }
         entry.innerHTML = `
             <input type="checkbox" id="task${i}" onchange="declareDone(${i})">
             <span class="name">${list[i].name}</span>
-            <span class="duedate">Due ${list[i].duedate}</span>
+            <span class="duedate" id="task${i}date">${duedateString}</span>
         `;
 
         pageList.appendChild(entry);
 
         document.getElementById('task' + i).checked = false;
+
+        let dueDate = new Date(list[i].duedate);
+        let today = new Date();
+
+        if (dateInPast(dueDate,today)) {
+            document.getElementById('task' + i + 'date').classList.add('red');
+        }
+        else {
+            document.getElementById('task' + i + 'date').classList.remove('red');
+        }
 
         if (list[i].done == true) {
             document.getElementById('task' + i).checked = true;
@@ -66,3 +80,11 @@ function addToList(name, duedate, done) {
     itemName.value = '';
     itemDueDate.value = '';
 }
+
+var dateInPast = function(firstDate, secondDate) {
+    if (firstDate.setHours(0, 0, 0, 0) <= secondDate.setHours(0, 0, 0, 0)) {
+      return true;
+    }
+  
+    return false;
+  };
