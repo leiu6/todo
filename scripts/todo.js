@@ -26,7 +26,7 @@ function declareDone(i) {
 
 function addToList(name, duedate, done) {
     //don't allow submission if input fields are empty
-    if (itemName.value === '' || itemDueDate.value === '') {
+    if (itemName.value === '') {
         return null;
     }
 
