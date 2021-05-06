@@ -14,6 +14,7 @@ header.onclick = () => {
         <input type="text" id="listTitle">
     `;
 
+
     let textBox = document.querySelector("#listTitle");
     
     textBox.value = headerContent;
@@ -22,7 +23,7 @@ header.onclick = () => {
     //look for enter key to change header value
     textBox.addEventListener('keydown', (e) => {
         if (e.key == "Enter") {
-            if (textBox.value === null) {
+            if (textBox.value === '') {
                 return 0;
             }
             else {

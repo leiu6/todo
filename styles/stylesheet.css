@@ -10,9 +10,29 @@ header {
     background-color:rgb(201, 70, 70);
     width: 100%;
     height: 65px;
-    text-align: center;
-    line-height: 65px;
     font-size: 25px;
+}
+header .header-text {
+    width: 100%;
+    height: 100%;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+header .header-text #listTitle {
+    width: 50vw;
+    height: 50px;
+    background-color: rgb(49, 49, 49);
+    border: 1px solid rgb(36, 36, 36);
+    border-radius: 3px;
+    font-size: 25px;
+    color: white;
+    text-align: center;
+}
+header .header-text #listTitle:focus {
+    outline: none;
 }
 main {
     width: 1000px;
