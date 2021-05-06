@@ -47,7 +47,7 @@ function addToList(name, duedate, done) {
             duedateString = 'Due ' + list[i].duedate;
         }
         entry.innerHTML = `
-            <input type="checkbox" id="task${i}" onchange="declareDone(${i})">
+            <input type="checkbox" class="taskCheck" id="task${i}" onchange="declareDone(${i})">
             <span class="name">${list[i].name}</span>
             <span class="duedate" id="task${i}date">${duedateString}</span>
         `;
