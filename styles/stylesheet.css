@@ -109,3 +109,18 @@ footer #add {
 span.red {
     color:rgb(150, 50, 50) !important;
 }
+
+
+.taskCheck {
+    appearance: none;
+    background-color: rgba(0, 0, 0, 0.1);
+    border: 1px solid rgba(0, 0, 0, 0.3);
+    border-radius: 3px;
+}
+.taskCheck:checked:after {
+    content: '\2714';
+    font-size: 30px;
+    position: relative;
+    top: -5px;
+    left: 1px;
+}
