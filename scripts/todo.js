@@ -9,8 +9,27 @@ document.querySelector('#add').onclick = () => addToList(itemName.value, itemDue
 
 //code to allow header to be renamed
 header.onclick = () => {
-    header.setAttribute('contenteditable', '');
-    header.setAttribute('role', 'textbox');
+    let headerContent = header.textContent; //create backup of header content to populate textbox
+    header.innerHTML = `
+        <input type="text" id="listTitle">
+    `;
+
+    let textBox = document.querySelector("#listTitle");
+    
+    textBox.value = headerContent;
+    textBox.select();
+
+    //look for enter key to change header value
+    textBox.addEventListener('keydown', (e) => {
+        if (e.key == "Enter") {
+            if (textBox.value === null) {
+                return 0;
+            }
+            else {
+                header.textContent = textBox.value;
+            }
+        }
+    });
 };
 
 function declareDone(i) {
